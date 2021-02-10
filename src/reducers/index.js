@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+// import { combineReducers } from 'redux';
 import {GET_ALL_PRODUCT,GET_NUMBER_CART,ADD_CART, DECREASE_QUANTITY, INCREASE_QUANTITY, DELETE_CART} from  '../actions';
 
 const initProduct = {
@@ -83,7 +83,9 @@ function todoProduct(state = initProduct,action){
             return state;
     }
 }
-const ShopApp = combineReducers({
-    _todoProduct:todoProduct
-});
-export default ShopApp;
+// const ShopApp = combineReducers({
+//     _todoProduct:todoProduct
+// });
+// export default ShopApp;
+
+export default todoProduct;

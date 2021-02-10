@@ -1,0 +1,24 @@
+body{
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+
+.cart__container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    grid-gap: 1rem;
+}
+
+.cart__wrapper{
+    display: flex;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 414px) {
+    .cart__container{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+        grid-gap: 1rem;
+    }
+  }
