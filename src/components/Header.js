@@ -94,7 +94,8 @@ const Header = (props) => {
     <div>
       <div>
         <div className={classes.root}>
-          <AppBar position="static">
+          <AppBar position="static"                 color="secondary"
+>
             <Toolbar>
               <IconButton
                 edge="start"
@@ -105,23 +106,10 @@ const Header = (props) => {
                 <MenuIcon />
               </IconButton>
               <Typography className={classes.title} variant="h6" noWrap>
-                <Link to="/" className="nav-link active">
+                <Link to="/"  className="brand__link">
                   Products
                 </Link>
               </Typography>
-              <div className={classes.search}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon />
-                </div>
-                <InputBase
-                  placeholder="Search By Name…"
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                  }}
-                  inputProps={{ "aria-label": "search" }}
-                />
-              </div>
             </Toolbar>
           </AppBar>
         </div>

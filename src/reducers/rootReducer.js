@@ -1,14 +1,8 @@
-import { combineReducers } from 'redux';
-import todoProduct from './index';
+import { combineReducers } from "redux";
+import todoProduct from "./index";
 
-
-
-
-
-
- const ShopApp = combineReducers({
-    _todoProduct:todoProduct
+const ShopApp = combineReducers({
+  _todoProduct: todoProduct,
 });
 
-
-export default ShopApp
+export default ShopApp;
