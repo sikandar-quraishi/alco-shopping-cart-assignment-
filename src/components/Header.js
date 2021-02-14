@@ -94,8 +94,7 @@ const Header = (props) => {
     <div>
       <div>
         <div className={classes.root}>
-          <AppBar position="static"                 color="secondary"
->
+          <AppBar position="static" color="secondary">
             <Toolbar>
               <IconButton
                 edge="start"
@@ -106,7 +105,7 @@ const Header = (props) => {
                 <MenuIcon />
               </IconButton>
               <Typography className={classes.title} variant="h6" noWrap>
-                <Link to="/"  className="brand__link">
+                <Link to="/" className="brand__link">
                   Products
                 </Link>
               </Typography>
@@ -115,7 +114,7 @@ const Header = (props) => {
         </div>
       </div>
       <div>
-        <Tooltip title="Cart" aria-label="add">
+        <Tooltip title="View all carts" aria-label="add">
           <Fab color="secondary" className={classes.absolute}>
             <Link to="/carts" style={{ color: "#fff" }}>
               <Badge color="primary" badgeContent={props.numberCart}>

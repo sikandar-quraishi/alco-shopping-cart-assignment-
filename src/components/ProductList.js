@@ -10,11 +10,18 @@ import {
   Typography,
   Container,
   CircularProgress,
+  Snackbar,
   InputBase,
 } from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
+import Filter from "./Filter";
+import Pagination from "./Pagination";
 import { actFetchProductsRequest, AddCart } from "../actions";
 import { connect } from "react-redux";
-import ReactPaginate from "react-paginate";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,6 +33,23 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     marginTop: 250,
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    width: 160,
+    height: 40,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+  cardArea: {
+    "&:hover": {
+      transform: "scale(1.02)",
+    },
+  },
+  cardAction: {
+    float: "right",
+  },
 }));
 
 const Product = (props) => {
@@ -33,55 +57,23 @@ const Product = (props) => {
   const [offset, setOffset] = useState(0);
   const [perPage] = useState(10);
   const [pageCount, setPageCount] = useState(0);
-  const [data, setData] = useState();
+  const [catogoryFilter, setCatogoryFilter] = useState("");
+  const [open, setOpen] = React.useState(false);
+
+  const { _products } = props._products;
+
+  const getData = () => {
+    setPageCount(Math.ceil(_products.length / perPage));
+  };
 
   useEffect(() => {
     props.actFetchProductsRequest();
+  }, []);
+
+  useEffect(() => {
     getData();
-  }, [offset]);
+  }, [offset, getData]);
 
-  const getData = () => {
-    let data = _products;
-    console.log("slice Data", data);
-
-    const slice = data.slice(offset, offset + perPage);
-    const postData = slice.map((item) => (
-      <div key={item.id}>
-        <Card className={classes.root}>
-          <CardActionArea>
-            <CardMedia
-              component="img"
-              alt="Contemplative Reptile"
-              height="160"
-              style={{ objectFit: "contain" }}
-              image={item.image}
-              title="Contemplative Reptile"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h6" component="h6">
-                {item.name}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                ₹ {item.price}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-          <CardActions>
-            <Button
-              className="add_cart_btm"
-              onClick={() => handleaddCart(item)}
-              size="small"
-              color="secondary"
-            >
-              Add to Cart
-            </Button>
-          </CardActions>
-        </Card>
-      </div>
-    ));
-    setData(postData);
-    setPageCount(Math.ceil(data.length / perPage));
-  };
   const handlePageClick = (e) => {
     const selectedPage = e.selected;
     setOffset(selectedPage + 1);
@@ -89,11 +81,86 @@ const Product = (props) => {
 
   const handleaddCart = (item) => {
     props.AddCart(item);
+    setOpen(true);
   };
 
-  const { _products } = props._products;
+  const handleChangeFilter = (event) => {
+    setCatogoryFilter(event.target.value);
+  };
 
-  console.log("product Data:", _products);
+  const getFilteredStudents = () => {
+    if (!catogoryFilter) {
+      return _products;
+    }
+    return _products.filter(
+      (singleStudent) => singleStudent.catogory === catogoryFilter
+    );
+  };
+
+  const _productsList = getFilteredStudents();
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const productSlice = _productsList.slice(offset, offset + perPage);
+  let productList = productSlice.map((item) => (
+    <div key={item.id}>
+      <Card className={classes.root}>
+        <CardActionArea className={classes.cardArea}>
+          <CardMedia
+            component="img"
+            alt="Contemplative Reptile"
+            height="160"
+            style={{ objectFit: "fill" }}
+            image={item.image}
+            title="Contemplative Reptile"
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h6" component="h6">
+              {item.name}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              ₹ {item.price}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions className={classes.cardAction}>
+          <Button
+            // variant="outlined"
+            // startIcon={<AddIcon />}
+            className="add_cart_btm"
+            onClick={() => handleaddCart(item)}
+            size="small"
+            color="secondary"
+          >
+            Add to Cart
+          </Button>
+          <Snackbar
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            open={open}
+            autoHideDuration={1000}
+            onClose={handleClose}
+          >
+            <Alert
+              style={{ boxShadow: "none" }}
+              onClose={handleClose}
+              severity="success"
+            >
+              Cart added successfully!
+            </Alert>
+          </Snackbar>
+        </CardActions>
+      </Card>
+    </div>
+  ));
+
   if (_products.length > 0) {
     return (
       <Container fixed>
@@ -105,34 +172,26 @@ const Product = (props) => {
               className="search__input"
               inputProps={{ 'aria-label': 'search' }}
             /> */}
+            <Filter
+              catogoryFilter={catogoryFilter}
+              handleChangeFilter={handleChangeFilter}
+            />
           </div>
           <div>
-            <ReactPaginate
-              previousLabel={"Prev"}
-              nextLabel={"Next"}
-              breakLabel={"..."}
-              breakClassName={"break-me"}
+            <Pagination
               pageCount={pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={handlePageClick}
-              containerClassName={"pagination"}
-              subContainerClassName={"pages pagination"}
-              activeClassName={"active"}
+              handlePageClick={handlePageClick}
             />
           </div>
         </div>
-        <br />
-
-        <div className="cart__container">
-          {data}
-        </div>
+        <br/>
+        <div className="cart__container">{productList}</div>
       </Container>
     );
   }
   return (
     <div className={classes.circle}>
-      <CircularProgress size={40} thickness={4} />
+      <CircularProgress color="secondary" size={40} thickness={4} />
     </div>
   );
 };
