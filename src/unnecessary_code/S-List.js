@@ -124,10 +124,7 @@ const Product = (props) => {
         </div>
         <br />
 
-        <div className="cart__container">
-          
-          {data}
-        </div>
+        <div className="cart__container">{data}</div>
       </Container>
     );
   }

@@ -83,16 +83,16 @@ const Product = (props) => {
     setCatogoryFilter(event.target.value);
   };
 
-  const getFilteredStudents = () => {
+  const getFilteredProducts = () => {
     if (!catogoryFilter) {
       return _products;
     }
     return _products.filter(
-      (singleStudent) => singleStudent.catogory === catogoryFilter
+      (singleProduct) => singleProduct.catogory === catogoryFilter
     );
   };
 
-  const _productsList = getFilteredStudents();
+  const _productsList = getFilteredProducts();
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -145,7 +145,7 @@ const Product = (props) => {
       <Container fixed>
         <br />
         <div className="sub__header">
-          <div>
+          <div className="sub__item">
             {/* <InputBase
               placeholder="Search By Name…"
               className="search__input"
@@ -156,7 +156,7 @@ const Product = (props) => {
               handleChangeFilter={handleChangeFilter}
             />
           </div>
-          <div>
+          <div className="sub__item__two">
             <Pagination
               pageCount={pageCount}
               handlePageClick={handlePageClick}

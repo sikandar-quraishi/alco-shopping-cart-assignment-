@@ -1,24 +1,21 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   makeStyles,
-  Card,
   List,
   ListItem,
   ListItemText,
-  ListItemSecondaryAction,
   IconButton,
   CardMedia,
   ButtonGroup,
   Button,
   Divider,
-  Typography,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveSharpIcon from "@material-ui/icons/RemoveSharp";
+import TotalCarts from "./totalCarts";
 import { IncreaseQuantity, DecreaseQuantity, DeleteCart } from "../actions";
 import { connect } from "react-redux";
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,15 +30,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Cart = ({
-  items,
-  IncreaseQuantity,
-  DecreaseQuantity,
-  DeleteCart,
-  numberCart,
-}) => {
+const CartsView = ({ items, IncreaseQuantity, DecreaseQuantity, DeleteCart, numberCart, }) => {
   const classes = useStyles();
-  useEffect(() => {}, []);
 
   let ListCart = [];
   let TotalCart = 0;
@@ -97,7 +87,6 @@ const Cart = ({
                         secondary={"₹" + TotalPrice(item.price, item.quantity)}
                       />
                     </div>
-
                     <div>
                       <IconButton
                         onClick={() => DeleteCart(key)}
@@ -114,41 +103,14 @@ const Cart = ({
             );
           })}
         </List>
-
         <div>
-          <Card className="total__section">
-            <Typography variant="h6">Total Carts</Typography>
-
-            <div className="item__lenth">
-              <ListItemText primary="Total items" />
-              <ListItemSecondaryAction className="total_item_content">
-                <ListItemText primary={numberCart} />
-              </ListItemSecondaryAction>
-            </div>
-
-            <Divider light />
-            <div>
-              <Typography className="amount_texes" variant="h6">
-                The total amount of (temporary)
-              </Typography>
-              <ListItemSecondaryAction className="total_amount_content">
-                <ListItemText
-                  primary={"₹" + Number(TotalCart).toLocaleString("en-US")}
-                />
-              </ListItemSecondaryAction>
-            </div>
-
-            <Button fullWidth variant="contained" color="secondary">
-              Go To Checkout
-            </Button>
-          </Card>
+          <TotalCarts numberCart={numberCart} TotalCart={TotalCart} />
         </div>
       </div>
     </div>
   );
 };
 const mapStateToProps = (state) => {
-  //  console.log(state)
   return {
     items: state._todoProduct,
     numberCart: state._todoProduct.numberCart,
@@ -159,4 +121,4 @@ export default connect(mapStateToProps, {
   IncreaseQuantity,
   DecreaseQuantity,
   DeleteCart,
-})(Cart);
+})(CartsView);
