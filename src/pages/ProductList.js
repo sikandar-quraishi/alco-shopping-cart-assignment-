@@ -10,18 +10,13 @@ import {
   Typography,
   Container,
   CircularProgress,
-  Snackbar,
   InputBase,
 } from "@material-ui/core";
-import MuiAlert from "@material-ui/lab/Alert";
-import Filter from "./Filter";
-import Pagination from "./Pagination";
+import Filter from "../components/Filter";
+import Pagination from "../components/Pagination";
+import ListSnackbar from "../components/ListSnackbar";
 import { actFetchProductsRequest, AddCart } from "../actions";
 import { connect } from "react-redux";
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -139,23 +134,7 @@ const Product = (props) => {
           >
             Add to Cart
           </Button>
-          <Snackbar
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-            open={open}
-            autoHideDuration={1000}
-            onClose={handleClose}
-          >
-            <Alert
-              style={{ boxShadow: "none" }}
-              onClose={handleClose}
-              severity="success"
-            >
-              Cart added successfully!
-            </Alert>
-          </Snackbar>
+          <ListSnackbar handleClose={handleClose} open={open} />
         </CardActions>
       </Card>
     </div>
@@ -184,7 +163,7 @@ const Product = (props) => {
             />
           </div>
         </div>
-        <br/>
+        <br />
         <div className="cart__container">{productList}</div>
       </Container>
     );

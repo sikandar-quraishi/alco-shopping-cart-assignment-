@@ -1,14 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Cart from "./components/Cart";
-import Header from "./components/Header";
-import ProductList from "./components/ProductList";
+import Navbar from "./components/Navbar";
+import ProductList from "./pages/ProductList";
 
 const App = () => {
   return (
     <div>
       <Router>
-        <Header />
+        <Navbar />
         <Switch>
           <Route path="/" exact component={ProductList} />
           <Route path="/carts" exact component={Cart} />

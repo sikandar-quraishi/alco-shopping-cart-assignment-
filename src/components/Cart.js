@@ -18,7 +18,6 @@ import AddIcon from "@material-ui/icons/Add";
 import RemoveSharpIcon from "@material-ui/icons/RemoveSharp";
 import { IncreaseQuantity, DecreaseQuantity, DeleteCart } from "../actions";
 import { connect } from "react-redux";
-import Grow from "@material-ui/core/Grow";
 
 
 const useStyles = makeStyles((theme) => ({
