@@ -36,6 +36,7 @@ const Filter = ({ products }) => {
         <option value="oppo">oppo</option>
       </select>
 
+    
       {productsList.map((student) => {
         return (
           <li key={student.id}>
